@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Экзамены</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        .exam-card {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 15px;
+            background: #f9f9f9;
+        }
+        .exam-title {
+            color: #2c3e50;
+            margin-top: 0;
+        }
+        .exam-image {
+            max-width: 300px;
+            height: auto;
+            border: 1px solid #ccc;
+        }
+    </style>
+</head>
+<body>
+    <h1>Барладина Ангелина Александровна - 241-671</h1>
+
+    <h2>Список экзаменов</h2>
+
+    {% for exam in exams %}
+    <div class="exam-card">
+        <h3 class="exam-title">{{ exam.title }}</h3>
+        <p><strong>Дата создания:</strong> {{ exam.created_date|date:"d.m.Y H:i" }}</p>
+        <p><strong>Дата экзамена:</strong> {{ exam.exam_date|date:"d.m.Y H:i" }}</p>
+        <p><strong>Студенты:</strong>
+            {% for user in exam.users.all %}
+                {{ user.username }}{% if not forloop.last %}, {% endif %}
+            {% endfor %}
+        </p>
+        {% if exam.image %}
+        <img src="{{ exam.image.url }}" alt="Задание" class="exam-image">
+        {% endif %}
+    </div>
+    {% empty %}
+    <p>Нет доступных экзаменов.</p>
+    {% endfor %}
+</body>
+</html>
